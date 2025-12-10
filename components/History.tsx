@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { HistoryItem, ToolMode } from '../types';
-import { Trash } from 'lucide-react';
+import { Trash, Database } from 'lucide-react';
 
 interface HistoryProps {
   history: HistoryItem[];
@@ -29,6 +30,12 @@ const History: React.FC<HistoryProps> = ({ history, mode, clearHistory }) => {
           <Trash size={12} /> 清空
         </button>
       </div>
+      
+      {/* Privacy Hint */}
+      <div className="text-[10px] text-gray-400 mb-2 flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 p-1.5 rounded">
+         <Database size={10} /> 记录仅保存在本地浏览器中，关闭后可能清除。
+      </div>
+
       <ul className="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar">
         {filtered.length === 0 ? (
           <li className="text-center text-gray-400 py-4 text-sm">暂无记录</li>

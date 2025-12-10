@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { Copy, Users, Dice5, Lock } from 'lucide-react';
+import { Copy, Users, Dice5, Lock, ShieldCheck } from 'lucide-react';
 
 /* --- Team Generator --- */
 export const TeamTool: React.FC<{ addHistory: (val: string) => void }> = ({ addHistory }) => {
@@ -40,15 +41,19 @@ export const TeamTool: React.FC<{ addHistory: (val: string) => void }> = ({ addH
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
       <h3 className="text-lg font-bold mb-4 flex items-center gap-2">👥 多人组队</h3>
-      <div className="mb-4">
+      <div className="mb-2">
         <textarea 
           value={participants}
           onChange={(e) => setParticipants(e.target.value)}
           placeholder="输入名单，例如：&#10;小明&#10;小红&#10;小刚"
           className="w-full h-32 p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-sm focus:outline-none focus:border-indigo-500"
         />
+        {/* Privacy Note Added */}
+        <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+          <ShieldCheck size={12} /> 名单仅在本地浏览器处理，不会上传至服务器。
+        </p>
       </div>
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-2 gap-4 mb-4 mt-4">
         <label className="flex items-center gap-2 cursor-pointer text-sm">
           <input type="radio" checked={goalType === 'count'} onChange={() => setGoalType('count')} className="accent-indigo-600" />
           按队伍数分组
@@ -191,6 +196,9 @@ export const PasswordTool: React.FC<{ addHistory: (val: string) => void }> = ({ 
         <span className="break-all">{password}</span>
         {password !== '点击生成' && <Copy size={16} className="text-gray-400" />}
       </div>
+      <p className="text-xs text-gray-400 mt-2 flex items-center gap-1 justify-center">
+        <ShieldCheck size={12} /> 密码在本地生成，不经过网络
+      </p>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import { WheelItem } from './types';
 
 export const DEFAULT_COLORS = [
@@ -6,11 +7,9 @@ export const DEFAULT_COLORS = [
 ];
 
 export const DEFAULT_WHEEL_ITEMS: WheelItem[] = [
-  { id: '1', text: '选项 1', color: DEFAULT_COLORS[0] },
-  { id: '2', text: '选项 2', color: DEFAULT_COLORS[1] },
-  { id: '3', text: '选项 3', color: DEFAULT_COLORS[2] },
-  { id: '4', text: '选项 4', color: DEFAULT_COLORS[3] },
-  { id: '5', text: '选项 5', color: DEFAULT_COLORS[4] },
+  { id: '1', text: '自定义选项 1', color: DEFAULT_COLORS[0] },
+  { id: '2', text: '自定义选项 2', color: DEFAULT_COLORS[1] },
+  { id: '3', text: '自定义选项 3', color: DEFAULT_COLORS[2] },
 ];
 
 export const QUICK_TEMPLATES: Record<string, { name: string; items: Partial<WheelItem>[] }> = {
@@ -82,7 +81,7 @@ export const QUICK_TEMPLATES: Record<string, { name: string; items: Partial<Whee
       ]
   },
   custom: {
-    name: '自定义',
+    name: '恢复默认',
     items: DEFAULT_WHEEL_ITEMS.map(item => ({ text: item.text, color: item.color }))
   }
 };

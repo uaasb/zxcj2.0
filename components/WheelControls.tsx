@@ -1,7 +1,8 @@
+
 import React from 'react';
 import { WheelItem } from '../types';
 import { QUICK_TEMPLATES, DEFAULT_COLORS } from '../constants';
-import { Trash2, Plus, Grid } from 'lucide-react';
+import { Trash2, Plus, Grid, RotateCcw } from 'lucide-react';
 
 interface WheelControlsProps {
   items: WheelItem[];
@@ -26,6 +27,11 @@ const WheelControls: React.FC<WheelControlsProps> = ({
 }) => {
 
   const handleLoadTemplate = (key: string) => {
+    // If selecting 'custom' (Restore Default) and already on custom, confirm
+    if (key === 'custom' && selectedTemplate === 'custom') {
+       if (!confirm('确定要恢复默认设置吗？当前编辑的内容将丢失。')) return;
+    }
+
     setSelectedTemplate(key);
     const template = QUICK_TEMPLATES[key];
     
@@ -56,10 +62,21 @@ const WheelControls: React.FC<WheelControlsProps> = ({
   const addItem = () => {
     const newItem: WheelItem = {
       id: Date.now().toString(),
-      text: '新选项',
+      text: '',
       color: DEFAULT_COLORS[items.length % DEFAULT_COLORS.length]
     };
     setItems([...items, newItem]);
+  };
+
+  const clearAllItems = () => {
+    if (confirm('确定要清空所有选项吗？')) {
+      const newItems = [
+        { id: Date.now().toString(), text: '', color: DEFAULT_COLORS[0] },
+        { id: (Date.now() + 1).toString(), text: '', color: DEFAULT_COLORS[1] }
+      ];
+      setItems(newItems);
+      setSelectedTemplate('custom');
+    }
   };
 
   return (
@@ -142,12 +159,14 @@ const WheelControls: React.FC<WheelControlsProps> = ({
             <input 
               type="text" 
               value={item.text} 
+              placeholder={`选项 ${index + 1}`}
               onChange={(e) => updateItem(item.id, 'text', e.target.value)}
               className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-600 rounded bg-white dark:bg-gray-700 focus:outline-none focus:border-indigo-500"
             />
             <button 
               onClick={() => deleteItem(item.id)}
               className="p-2 text-white bg-rose-500 rounded hover:opacity-90 transition-opacity"
+              title="删除此项"
             >
               <Trash2 size={16} />
             </button>
@@ -155,12 +174,21 @@ const WheelControls: React.FC<WheelControlsProps> = ({
         ))}
       </div>
 
-      <button 
-        onClick={addItem}
-        className="w-full py-2 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors flex items-center justify-center gap-2"
-      >
-        <Plus size={18} /> 添加选项
-      </button>
+      <div className="flex gap-2">
+        <button 
+          onClick={addItem}
+          className="flex-1 py-2 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors flex items-center justify-center gap-2"
+        >
+          <Plus size={18} /> 添加选项
+        </button>
+        <button 
+          onClick={clearAllItems}
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex items-center justify-center"
+          title="清空所有选项"
+        >
+          <RotateCcw size={18} />
+        </button>
+      </div>
     </div>
   );
 };

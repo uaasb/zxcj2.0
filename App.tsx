@@ -21,7 +21,11 @@ export default function App() {
   const [mode, setMode] = useState<ToolMode>('wheel');
 
   // Wheel State 
-  const [wheelItems, setWheelItems] = useState<WheelItem[]>(DEFAULT_WHEEL_ITEMS);
+  const [wheelItems, setWheelItems] = useState<WheelItem[]>(() => {
+    // Changed key to v9 to force new defaults for users
+    const saved = localStorage.getItem('wheelDataV9');
+    return saved ? JSON.parse(saved) : DEFAULT_WHEEL_ITEMS;
+  });
   const [wheelSize, setWheelSize] = useState(380);
   const [spinDuration, setSpinDuration] = useState(3);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -45,7 +49,7 @@ export default function App() {
   }, [theme]);
 
   useEffect(() => {
-    localStorage.setItem('wheelDataV8', JSON.stringify(wheelItems));
+    localStorage.setItem('wheelDataV9', JSON.stringify(wheelItems));
   }, [wheelItems]);
 
   useEffect(() => {
@@ -209,7 +213,7 @@ export default function App() {
       {/* Footer with Privacy Policy Link - Critical for AdSense */}
       <footer className="bg-gray-50 dark:bg-gray-800 border-t dark:border-gray-700 mt-12 py-8">
          <div className="container mx-auto px-4 text-center text-sm text-gray-500 dark:text-gray-400">
-            <p className="mb-4">© 2024 在线抽奖系统 - 免费的教育与团队辅助工具</p>
+            <p className="mb-4">© 2026 在线抽奖系统 - 免费的教育与团队辅助工具</p>
             <div className="flex justify-center gap-6">
                <button 
                  onClick={() => setShowPrivacy(true)}
